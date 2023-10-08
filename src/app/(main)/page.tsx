@@ -1,4 +1,10 @@
+'use client'
+
 import { ArrowNarrowRight, BoxSeam, Discount, Plant } from '@/components/icons/outline'
+import axios from 'axios'
+import { motion } from 'framer-motion'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
     const bests = [
@@ -64,24 +70,36 @@ export default function Home() {
         }
     ]
 
+    const [bestProductData, setBestProductData] = useState(bests)
+    const [aboutData, setAboutData] = useState(abouts)
+    const [categoryData, setCategoryData] = useState(categories)
+
+    useEffect(() => {
+        const fetch = async () => {
+            const res = await axios.get("http://claretta-dashboard.test/api/home")
+        }
+
+        fetch()
+    }, [])
+
     return (
-        <>
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
             <section id="hero" className="bg-[#C1DCDC] rounded-3xl p-8 mx-24 relative overflow-hidden">
                 <div className="flex flex-col justify-between w-1/2 space-y-24">
                     <h1 className="text-5xl font-black leading-tight w-72">
                         October Sale has Come!
                     </h1>
-                    <button className="flex items-center justify-between w-1/2 py-2 pl-4 pr-2 bg-white rounded-xl">
+                    <Link href="/product" className="flex items-center justify-between w-1/2 py-2 pl-4 pr-2 bg-white rounded-xl">
                         <span>Discover More</span>
                         <div className="bg-[#C1DCDC] p-2 rounded-lg">
                             <ArrowNarrowRight className="w-6 h-6" strokeWidth={1.5} />
                         </div>
-                    </button>
+                    </Link>
                 </div>
                 <div className="absolute inset-y-0 flex right-8">
                     <div className="relative flex justify-center">
                         <img className="h-full z-[1]" src="/assets/img/home/product-cutout.png" alt="Product Cut-out" />
-                        <div className="absolute inset-x-0 w-full h-auto bg-gray-800 rounded-t-full rounded-bl-full -bottom-16 aspect-square"></div>
+                        <div className="absolute inset-x-0 w-full h-auto rounded-t-full rounded-bl-full bg-neutral-800 -bottom-16 aspect-square"></div>
                     </div>
                 </div>
             </section>
@@ -90,7 +108,7 @@ export default function Home() {
                     <h3 className="text-2xl font-bold">
                         Best Selling Products
                     </h3>
-                    <p className="mt-4 text-sm text-gray-700">
+                    <p className="mt-4 text-sm text-neutral-700">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     </p>
                     <button className="bg-[#C1DCDC] mt-8 flex items-center px-4 py-2 space-x-2 rounded-lg text-sm">
@@ -99,7 +117,7 @@ export default function Home() {
                     </button>
                 </div>
                 <div className="grid w-4/5 grid-cols-3 gap-8">
-                    {bests.map((row) => (
+                    {bestProductData.map((row) => (
                         <div className="space-y-4">
                             <img className="aspect-[4/5] object-cover rounded-xl" src={row.image} alt={row.name} />
                             <h5 className="font-medium">{row.name}</h5>
@@ -114,7 +132,7 @@ export default function Home() {
                     <p className="text-sm text-center text-neutral-500">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis omnis quas vitae adipisci</p>
                 </div>
                 <div className="flex justify-between gap-12">
-                    {abouts.map((row) => (
+                    {aboutData.map((row) => (
                         <div className="flex flex-col items-center space-y-4 text-center">
                             <div className="rounded-full bg-[#C1DCDC] p-4">
                                 {row.icon}
@@ -132,7 +150,7 @@ export default function Home() {
                 </div>
                 <div className="bg-[#C1DCDC] py-12 px-24">
                     <div className="flex justify-between gap-24">
-                        {categories.map((row, index) => (
+                        {categoryData.map((row, index) => (
                             <div className={`${index === 0 || index === categories.length - 1 ? "-mt-24" : ""} text-center text-sm space-y-4`}>
                                 <img className="aspect-[9/16] rounded-xl object-cover" src={row.image} alt={row.name} />
                                 <div><p className="text-lg font-semibold">{row.name}</p></div>
@@ -155,10 +173,10 @@ export default function Home() {
                 </div>
                 <div className="grid grid-cols-5 gap-8">
                     {[...Array(10)].map(() => (
-                        <div className="w-full h-full bg-gray-100 aspect-square rounded-xl"></div>
+                        <div className="w-full h-full bg-neutral-100 aspect-square rounded-xl"></div>
                     ))}
                 </div>
             </section>
-        </>
+        </motion.div>
     )
 }

@@ -17,7 +17,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${poppins.className} antialiased`}>
-                <main className="flex flex-col min-h-screen">{children}</main>
+                {children}
             </body>
         </html>
     )

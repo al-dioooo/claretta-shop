@@ -1,6 +1,10 @@
+'use client'
+
+import { motion } from "framer-motion"
+
 export default function Contacts() {
     return (
-        <>
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
             <section id="contact" className="relative flex py-16 mx-24 space-x-8">
                 <div className="w-1/4 space-y-4">
                     <h1 className="text-2xl font-medium">
@@ -31,6 +35,6 @@ export default function Contacts() {
                     </div>
                 </div>
             </section>
-        </>
+        </motion.div>
     )
 }
